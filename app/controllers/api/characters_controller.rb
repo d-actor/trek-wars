@@ -24,6 +24,7 @@ class Api::CharactersController < ApplicationController
   end
 
   def destroy
+    @character.destroy
   end
 
   private

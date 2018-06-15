@@ -12,14 +12,15 @@ class Location extends Component {
   }
 
   editLocation = () => {
-    // figure out how to get the update name of the location
     let id = this.props.location.id
     axios.put(`/api/locations/${id}`, { location: { name: this.state.name } })
       .then( res => {
+        console.log("yep")
         this.setState({name: res.data.name})
         this.toggleEdit();
       })
       .catch( res => {
+        console.log("nope")
         console.log(res)
       });
   }
@@ -28,9 +29,9 @@ class Location extends Component {
     let id = this.props.location.id
     axios.delete(`api/locations/${id}/`)
     .then( res => {
-      console.log('done')
-      this.setState();
       this.toggleEdit();
+      // wrong way first
+      this.props.resetLocations(id)
     })
     .catch( res => {
       console.log("Didn't work")
@@ -50,9 +51,9 @@ class Location extends Component {
       return(
         <List.Item>
           <Input type='text' defaultValue={this.state.name} onChange={this.handleChange} />
-          <Button onClick={ this.toggleEdit }>Cancel</Button>
-          <Button primary onClick={ this.editCharacter }>Save</Button>
-          <Button color="red" onClick={ this.deleteCharacter }>Delete</Button>
+          <Button onClick={ this.cancelEdit }>Cancel</Button>
+          <Button primary onClick={ this.editLocation }>Save</Button>
+          <Button color="red" onClick={ this.deleteLocation }>Delete</Button>
         </List.Item>
       );
     else

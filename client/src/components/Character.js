@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
 import axios from 'axios';
+import React, { Component } from 'react';
 import { List, Button, Input } from 'semantic-ui-react';
 
 class Character extends Component {
@@ -12,7 +12,6 @@ class Character extends Component {
   }
 
   editCharacter = () => {
-    // figure out how to get the updated name of the character
     let id = this.props.character.id
     axios.put(`/api/characters/${id}`, { character: { name: this.state.name } })
       .then( res => {
@@ -28,9 +27,9 @@ class Character extends Component {
     let id = this.props.character.id
     axios.delete(`/api/characters/${id}/`, { character: { name: this.state.name} })
     .then( res => {
-      console.log('yes')
-      this.setState({name: res.data.name})
       this.toggleEdit();
+      //do it the wrong way first
+      this.props.resetCharacters(id)
     })
     .catch( res => {
       console.log('no')
@@ -46,12 +45,11 @@ class Character extends Component {
   }
 
   render() {
-
     if(this.state.editing)
       return(
         <List.Item>
           <Input type='text' defaultValue={this.state.name} onChange={this.handleChange} />
-          <Button onClick={ this.toggleEdit }>Cancel</Button>
+          <Button onClick={ this.cancelEdit }>Cancel</Button>
           <Button primary onClick={ this.editCharacter }>Save</Button>
           <Button color="red" onClick={ this.deleteCharacter }>Delete</Button>
         </List.Item>

@@ -25,15 +25,31 @@ class Startrek extends Component {
       });
   }
 
+  //afterward
+
+  resetCharacterState = (id) => {
+    const { characters } = this.state
+    this.setState({
+      characters: characters.filter( c => c.id !== id )
+    })
+  }
+
+  resetLocationState = (id) => {
+    const { locations } = this.state
+    this.setState({
+      locations: locations.filter( l => l.id !== id )
+    })
+  }
+
   displayCharacters = () => {
     return this.state.characters.map( character => {
-      return(<Character key={character.id} character={character} />);
+      return(<Character resetCharacters={this.resetCharacterState} key={character.id} character={character} />);
     });
   }
 
   displayLocations = () => {
     return this.state.locations.map( location => {
-      return(<Location key={location.id} location={location} />);
+      return(<Location resetLocations={this.resetLocationState} key={location.id} location={location} />);
     })
   }
 
